@@ -11,7 +11,7 @@ if(!user){
 const passwordsMatch=bcrypt.compareSync(password,user.password)
 if(passwordsMatch){
      const token = jwt.sign({_id:user._id,email:user.email,name:user.name },process.env.JWT_SECRET_KEY);
-     res.cookie("token",token,{HttpOnly:true,maxAge:1*60*60*1000,secure:true})
+     res.cookie("token",token,{HttpOnly:true,maxAge:1*60*60*1000,secure:process.env.ENVIRONMENT==='development'?false:true})
     res.status(200).send("Logged in")
 }else{
     res.status(401).send("Unauthorized access")
